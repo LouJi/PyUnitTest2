@@ -17,18 +17,50 @@ class Testfunctionz(unittest.TestCase):
         self.assertAlmostEqual(add(-5,5), 0)
         self.assertAlmostEqual(add(-200,1000), 800)
         #test imaginary numbers
-        #self.assertAlmostEqual(add(0,sqrt(-1), sqrt(-1)))
-        #self.assertAlmostEqual(add(3,5j), 3+5j)
+        with self.assertRaises(ValueError):
+            add(0,sqrt(-1), sqrt(-1))
+        self.assertAlmostEqual(add(3,5j), 3+5j)
         #test string
-        self.assertRaises(TypeError, divide, "4", "3")
-        #self.assertRaises(TypeError, add, "Wow", "Hey")
-        #self.assertRaises(TypeError, add, 4,3)
-        #self.assertRaises(TypeError, add, False, False)
+        self.assertEqual(add("Hey","There"), "HeyThere")
+        #test boolean
+        self.assertRaises(TypeError, add, False, False)
+
+    def test_subtract(self):
+        self.assertEqual(subtract(111,11), 100)
+        self.assertEqual(subtract(100,-1), 101)
+        self.assertEqual(subtract(-1, 100), -101)
+        self.assertAlmostEqual(subtract(0,15), -15)
+        self.assertAlmostEqual(subtract(15, 0), 15)
+        #self.assertAlmostEqual((3,12j),3-12j)
+        #self.assertAlmostEqual((12j,-3), -3+12j)     
+
+        with self.assertRaises(TypeError):
+            #test string
+            subtract("Bye", "Now"), "NowBye"
+            #test boolean
+            subtract(False, True), -True
+
+    def test_multiple(self):
+        self.assertEqual(multiply(100, 50), 5000)
+        self.assertEqual(multiply(-3,21), -63)
+        self.assertEqual(multiply(-1, -75), 75)
+
+        with self.assertRaises(TypeError):
+            #test string
+            multiply("Where", "Now"), "NowWhere"
+            #test boolean
+            multiply(False, True), False
+            #test combination
+            multiply("Hey ", 4), "Hey Hey Hey Hey "
+        
 
     def test_divide(self):
-        self.assertEqual(divide(5, 1), 5)
+        self.assertEqual(divide(5,1), 5)
+        self.assertEqual(divide(2, 5), 0.40)
         with self.assertRaises(ValueError):
             divide(10,0)
+        self.assertRaises(TypeError, divide, "4", "3")
+        self.assertRaises(TypeError, divide, False, False)
 
 
 if __name__=='__main__':
